@@ -1,0 +1,235 @@
+:hover #buttons {
+    bottom: 5vh;
+}
+
+#buttons {
+    display: flex;
+    transition: bottom 0.5s;
+    left: 35vw;
+    right: 35vw;
+    position: fixed;
+    z-index: 3;
+    bottom: -10vh;
+    align-items: center;
+    justify-content: space-around;
+}
+
+body {
+    background: #ECEFF1;
+    color: rgba(0, 0, 0, 0.87);
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#message {
+    background: white;
+    max-width: 360px;
+    margin: 100px auto 16px;
+    padding: 32px 24px;
+    border-radius: 3px;
+}
+
+#message h2 {
+    color: #ffa100;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0 0 8px;
+}
+
+#message h1 {
+    font-size: 22px;
+    font-weight: 300;
+    color: rgba(0, 0, 0, 0.6);
+    margin: 0 0 16px;
+}
+
+#message p {
+    line-height: 140%;
+    margin: 16px 0 24px;
+    font-size: 14px;
+}
+
+#message a {
+    display: block;
+    text-align: center;
+    background: #039be5;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: white;
+    padding: 16px;
+    border-radius: 4px;
+}
+
+#message, #message a {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+#load {
+    color: rgba(0, 0, 0, 0.4);
+    text-align: center;
+    font-size: 13px;
+}
+
+@media (max-width: 600px) {
+    body, #message {
+        margin-top: 0;
+        background: white;
+        box-shadow: none;
+    }
+
+    body {
+        border-top: 16px solid #ffa100;
+    }
+}
+
+body {
+    margin: 1em;
+}
+
+#videos {
+    position: relative;
+    width: 100%;
+    display: grid;
+    grid-gap: 8px;
+}
+
+.single_cell {
+    grid-template-columns: 1fr;
+    grid-template-rows: 94vh;
+}
+
+.two_cell {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 94vh; 
+}
+
+.four_cell {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 44vh);
+}
+
+.nine_cell {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 30vh);
+}
+
+.sixteen_cell {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 22vh);
+}
+
+.video-box {
+    align-items: center;
+    justify-items: center;
+}
+
+.video-box video {
+    width: 100%;
+    height: 100%;
+    background: grey;
+    object-fit: contain;
+}
+
+.inverseVid {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+
+
+@media (orientation: portrait) {
+    #buttons {
+        left: 16vw;
+        right: 16vw;
+    }
+
+    .single_cell {
+        grid-template-columns: 1fr;
+        grid-template-rows: 94vh;
+    }
+
+    .two_cell {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(2, 44vh);
+    }
+
+    .four_cell {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 44vh);
+    }
+
+    .nine_cell {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, 28vh);
+    }
+
+    .sixteen_cell {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, 28vh);
+    }
+}
+
+#buttons button {
+    background-color: green;
+    text-decoration: none;
+}
+
+@media not all and (pointer: coarse) {
+    #buttons button:hover {
+        background-color: lightgrey; 
+        box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+}
+
+.toggle {
+    background-color: red !important;
+}
+
+.btn-circle {
+    border: none;
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    padding: 0;
+    border-radius: 50%;
+    outline: none;
+    border: none;
+}
+
+.material-icons {
+    color: white !important;
+}
+
+#hangupBtn {
+    color : red !important;
+}
+
+.hidden {
+    display: none;
+}
+
+.relaxedHidden {
+    visibility: hidden;
+}
+
+.sideLocalVideo {
+    position: fixed;
+    right: 1vw;
+    bottom: 1vh;
+    z-index: 1;
+}
+
+.sideLocalVideo video {
+    width: 15vw;
+    height: auto;
+}
+
+.contentContainer {
+    grid-column: 1 / 4;
+    grid-row: 1 / 4;
+}
+
+.mdc-menu-surface--anchor {
+    width: 13vw;
+}

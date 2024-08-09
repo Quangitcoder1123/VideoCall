@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>RoRo Meet - Ứng dụng gọi video nhóm miễn phí và chất lượng </title>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Expires" content="0">
+        <meta charset="utf-8">
+        <meta property="fb:app_id"          content="my-chat-app-47a81" /> 
+        <meta property="og:url" content="https://my-chat-app-47a81.web.app/" />
+        <meta property="og:type" content="article" />
+        <meta property="og:title"   content="RoRo Meet: Ứng dụng gọi video nhóm miễn phí" />
+        <meta property="og:description"        content="Hãy thử RoRo Meet: Ứng dụng gọi video nhóm mới -->> trải nghiệm ngay" />
+        <meta property="og:image"              content="./img/roro.png" />
+
+        <link rel="shortcut icon" type="image/png" href="./img/roro.png"/>
+        <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+        <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+        <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">-->
+
+        <!-- update the version number as needed -->
+        <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-firestore.js"></script>
+        <!-- initialize the SDK after all desired features are loaded -->
+        <script defer src="/__/firebase/init.js"></script>
+        <link rel="stylesheet" type="text/css" href="new.css">
+        <link rel="stylesheet" type="text/css" href="main.css">
+        <link rel="stylesheet" type="text/css" href="chat.css">
+
+
+
+        <style>
+            .material-symbols-outlined {
+              font-variation-settings:
+              'FILL' 0,
+              'wght' 100,
+              'GRAD' 0,
+              'opsz' 12
+            }
+        </style>
+
+    </head>
+    <body> 
+        <div id="chatbox" class="chatbox" style="display: none;">
+            <div class="chattitle">
+                <h4>Chat Room</h4>
+                <button id="close-chat" onclick="closeboxchat()">x</button>
+            </div>
+            <div class="chatmain">
+                <div id="chatlist" class="chat-list">
+                <div id="chatleft" class="chat-item chat-item-left">
+                   
+                    <div class="item-ms"> 
+                   </div>
+                </div>
+                <div id="chatright" class="chat-item chat-item-right">
+                    <div class="item-ms"> </div>
+                </div>
+            </div>
+            </div>
+            
+            <div class="ft-chat">
+                <textarea type="text" name="inputchat" id="inputchat"> </textarea>
+               <button id="btnsend">Send</button>
+            </div>
+        </div>
+           
+           
+
+
+        <div class="member " id="id-member" style="display: none;">
+            <div style="display: flex; justify-content: space-between;
+    align-items: center;"><span>Member</span>  <span onclick="Member()" style="color: red;border-radius: 50%;
+    padding: 5px;">X</span></div> 
+            <div id="member-list" class="member-list">
+                <div style="display: none;">
+                    <div class="member-item">
+                        <img src="./img/avt.jpg">
+                       <span>You</span>
+                    </div>
+                </div>  
+           </div>
+        </div>
+       <div class="room-box">
+            <div>
+                <span class="material-symbols-outlined room-box-icon room-box-more">more_horiz</span>
+            </div>
+           <div>
+                <div class="room-box-inf">
+                    <div>
+                        <center> Details of the meeting</center>
+                      
+                       <hr>
+                    </div>
+                    <div>
+                        Information on how to participate
+                    </div>
+                    <div>
+                        <span>ID Room: </span>
+                        <div id="room-id-box">...</div> 
+                    </div>
+                    <div>
+                        <span>Link: </span> 
+                        <div id="room-link-box">...</div> 
+                    </div>
+                    <center><button style="margin-top: 30px; margin-bottom: 30px;" id="btncpplk" class="button-62" style="display:flex;    display: flex;
+    align-items: center;
+    justify-content: space-between;" onclick="copyToClipboard()">Coppy Link<span class="material-symbols-outlined room-box-icon">content_copy</span></button></center>
+                    
+                    <center>
+                        <img style="width: 70%; height: auto; border-radius:20px" src="./img/r1.png">
+                    </center>
+                </div>
+            </div>
+        </div>
+       
+        <div>
+            <span id="currentRoom"></span>
+        </div>
+        <div id="videos" class='single_cell'>
+            <div class="video-box" id="localVideoContainer">
+                <video id="localVideo" muted autoplay playsinline></video>
+                <span id="namepeer" class="nametitle" style="font-size: 24px;"> You</span>
+                
+            </div>
+        </div>
+
+        <div class="menuba">
+             <div id="buttons">
+                
+           
+            <button class="material-icons hidden btn-circle" id="hangupBtn">call_end</button>
+            <button class="material-icons hidden btn-circle" id="shareButton">add_ic_call</button>
+            <button class="material-icons btn-circle" id="muteButton">mic</button>
+            <button class="material-icons btn-circle" id="videoButton">videocam</button>
+            <button class="material-icons btn-circle hidden" id="screenShareButton">screen_share</button>
+
+            <button class="material-icons btn-circle hidden" id="localVideoShowButton">visibility</button>
+            <button class="material-icons btn-circle" id="appFullscreenButton">fullscreen</button>
+            <button class="material-icons btn-circle" onclick="Member()"><span class="material-symbols-outlined ">group</span></button>
+            <div class="btn-circle">
+                <button class="material-icons btn-circle" onclick="boxchat()"><span class="material-symbols-outlined ">chat</span></button>
+            </div>
+            
+            
+             
+            
+            <div id = "deviceDropdown  " class="btn-circle">
+                <!--<button class="mdc-button" id="cameraOptions"><span class="mdc-button__label">Camera</span</button>-->
+                <button class="material-icons btn-circle" id="cameraOptions">arrow_drop_up</button>
+                <div class="mdc-menu-surface--anchor">
+                    <div class="mdc-menu mdc-menu-surface" tabindex="-1" style="transform-origin: center bottom; left: 0px; bottom: 0px; max-height: 767.781px;">
+                        <ul class="mdc-list" role="menu" aria-hidden="true">
+                            <div id="cameras">
+                                <li>Camera</li>
+                                <!--<li class="mdc-list-item mdc-ripple-upgraded" role="menuitem" tabindex="0">Passionfruit</li>-->
+                            </div>
+                            <li class="mdc-list-divider" role="separator"></li>
+                            <!--<div id="microphones">-->
+                            <!--<li>Audio</li>-->
+                            <!--[><li class="mdc-list-item mdc-ripple-upgraded" role="menuitem" tabindex="-1">Pineapple</li><]-->
+                            <!--</div>-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="mdc-dialog" 
+                    role="alertdialog"
+                    aria-modal="true"
+                    aria-labelledby="my-dialog-title"
+                    aria-describedby="my-dialog-content"   
+                    id="d-dialog">
+            <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface"
+                   >
+                    <h2 class="mdc-dialog__title" id="my-dialog-title">RoRo Meet</h2>
+
+                    <div class="mdc-dialog__content" id="my-dialog-content">
+                        <span contenteditable>Cuộc họp video chất lượng. miễn phí cho tất cả mọi người.</span>
+                        <div class="cnt mdc-dialog__actions">
+                            <button class="button-62 btnfl" id="createBtn">
+                                <span class="material-symbols-outlined" style="margin-right: 5px;">add_call</span><span>New Room</span>
+                            </button>
+                            <button class="button-60 btnfl" id="joinBtn">
+                                <span class="material-symbols-outlined" style="margin-right: 5px;">contact_phone</span><span>Join Room</span>
+                            </button>
+                        </div>
+                        
+                          
+                    </div>
+                        
+                   
+                 
+                </div>
+            </div>
+            <div class="mdc-dialog__container"></div>
+        </div>
+        <div class="mdc-dialog"
+             id="room-dialog"
+             role="alertdialog"
+             aria-modal="true"
+             aria-labelledby="my-dialog-title"
+             aria-describedby="my-dialog-content">
+            <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface">
+                    <h2 class="mdc-dialog__title" id="my-dialog-title">Join room</h2>
+                    <div class="mdc-dialog__content" id="my-dialog-content">
+                        <span>Enter name</span>
+                        <div class="mdc-text-field">
+                            <input type="text" id="peer-name" class="mdc-text-field__input" required>
+                            <div class="mdc-line-ripple"></div>
+                        </div>
+                    </div>
+                    <div class="mdc-dialog__content" id="my-dialog-content">
+                        <span>Enter ID room to join:</span>
+                        <div class="mdc-text-field">
+                            <input type="text" id="room-id" class="mdc-text-field__input">
+                            
+                            <div class="mdc-line-ripple"></div>
+                        </div>
+
+                    </div>
+                    
+                    <footer class="mdc-dialog__actions">
+                        <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
+                            <span class="mdc-button__label">Cancel</span>
+                        </button>
+                        <button id="confirmJoinBtn" type="button" class="mdc-button mdc-dialog__button"
+                                                                  data-mdc-dialog-action="yes">
+                            <span class="mdc-button__label">Join</span>
+                        </button>
+                    </footer>
+                </div>
+            </div>
+            <div class="mdc-dialog__scrim"></div>
+        </div>
+
+
+
+
+        <div class="mdc-dialog"
+             id="create-dialog"
+             role="alertdialog"
+             aria-modal="true"
+             aria-labelledby="my-dialog-title"
+             aria-describedby="my-dialog-content">
+            <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface">
+                    <h2 class="mdc-dialog__title" id="my-dialog-title">Create room</h2>
+                    <div class="mdc-dialog__content" id="my-dialog-content">
+                        <span>Enter name</span>                        <div class="mdc-text-field">
+                            <input required type="text" id="room-name" class="mdc-text-field__input">
+                            
+                            <div class="mdc-line-ripple"></div>
+                        </div>
+                        
+                    </div>
+                    <footer class="mdc-dialog__actions">
+                        <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
+                            <span class="mdc-button__label">Cancel</span>
+                        </button>
+                        <button id="confirmCrBtn" type="button" class="mdc-button mdc-dialog__button"
+                                                                  data-mdc-dialog-action="yes">
+                            <span class="mdc-button__label">Start</span>
+                        </button>
+                    </footer>
+                </div>
+            </div>
+            <div class="mdc-dialog__scrim"></div>
+        </div>
+        <script src="style.js"></script>
+        <script src="chat.js"></script>
+        <script src="action.js"></script>
+        <script src="CodecHandler.js"></script>
+        <script defer src="app.js"></script>
+    </body>
+</html>
