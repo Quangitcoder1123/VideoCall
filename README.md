@@ -1,6 +1,5 @@
 # ZiMS GP
-![Discord](https://img.shields.io/discord/807533216520863784?label=Discord)
-![Image](images/ZimsUI.png)
+![Uploading image.png…]()
 
 ## Current features:
 1. Multi-party
